@@ -1,0 +1,56 @@
+import { useRef, useContext } from 'react';
+import { useMutation } from 'react-query';
+import { useHistory } from 'react-router-dom';
+
+import './AddListing.css';
+
+import Input from '../../shared/components/input/Input'
+import Button from '../../shared/components/button/Button';
+import { AuthContext } from '../../shared/context/auth-context';
+
+import { createListing } from '../api/listings';
+
+const AddListing = () => {
+  const titleRef = useRef();
+  const priceRef = useRef();
+  const sellerRef = useRef();
+  const categoryidRef = useRef();
+  const contactRef = useRef();
+  const descriptionRef = useRef();
+  const imageRef = useRef();
+
+  const auth = useContext(AuthContext);
+  const history = useHistory();
+
+  const createListingMutation = useMutation({
+    mutationFn: createListing
+  })
+
+  const listingSubmitHandler = (event) => {
+    event.preventDefault();
+    createListingMutation.mutate({
+      capital: capitalRef.current.value,
+      country: countryRef.current.value,
+      image: imageRef.current.value,
+      token: auth.token
+    })
+    history.push('/');
+  }
+
+  return (
+    <form className='listing-form' onSubmit={listingSubmitHandler}>
+      <Input id="title" ref={titleRef} type="text" label="Title" />
+      <Input id="price" ref={priceRef} type="text" label="Price" />
+      <Input id="seller" ref={sellerRef} type="text" label="Seller" />
+      <Input id="categoryid" ref={categoryidRef} type="number" label="Category" />
+      <Input id="contact" ref={contactRef} type="number" label="Contact" />
+      <Input id="description" ref={descriptionRef} type="text" label="Description" />
+      <Input id="image" ref={imageRef} type="text" label="Image Link" />
+      <Button id="add-listing">
+        Add Listing
+      </Button>
+    </form>
+  )
+};
+
+export default AddListing;

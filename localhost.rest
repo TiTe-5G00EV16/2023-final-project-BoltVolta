@@ -1,0 +1,50 @@
+GET http://localhost:5000/api/listings
+
+
+###
+GET http://localhost:5000/api/listings/2
+
+
+###
+POST http://localhost:5000/api/listings
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+  "title": "Microphone",
+  "price": "600",
+  "seller":"Admin",
+  "categoryid":"1",
+  "contact":"0451235698",
+  "description":"test",
+  "image": "test.jpg"
+}
+
+###
+DELETE http://localhost:5000/api/listings/4
+Authorization: BEARER {{authToken}}
+
+###
+POST http://localhost:5000/api/users/signup
+Content-Type: application/json
+
+{
+    "name": "John Wayne",
+    "email": "john@wayne.com",
+    "password": "john@wayne"
+
+}
+
+###
+# @name login
+POST http://localhost:5000/api/users/login
+Content-Type: application/json
+
+{
+    "email": "john@wayne.com",
+    "password": "john@wayne"
+
+}
+
+###
+@authToken = {login.response.body.token}
