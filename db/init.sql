@@ -1,6 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(36) NOT NULL AUTO_INCREMENT,
+  `id` varchar(36) NOT NULL,
   `name` varchar(100) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(60) NOT NULL,
@@ -41,4 +41,3 @@ INSERT INTO `categories` (`category`) VALUES ('Furniture');
 INSERT INTO `categories` (`category`) VALUES ('Gardening');
 INSERT INTO `listings` (`title`,`price`,`seller`,`categoryid`,`contact`,`image`) VALUES ('Bike','150','Mark', 4,'0451223682','https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81wGn2TQJeL._SX425_.jpg');
 INSERT INTO `listings` (`title`,`price`,`seller`,`categoryid`,`contact`,`image`) VALUES ('Nike Shoes','30','Anna', 6,'0452323881','https://static.nike.com/a/images/t_default/b6e11cbd-509d-483d-b21d-850e2d7924ca/alphafly-2-road-racing-shoes-fvDSdT.png');
-INSERT INTO `users` (`name`,`email`,`password`) VALUES ('Admin','admin@root.com','admin123');

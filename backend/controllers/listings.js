@@ -53,11 +53,6 @@ const createListing = async (req, res) => {
   }
 
   try {
-    const result = await listings.findByListing(listing);
-    if(result.length > 0) {
-      res.status(400).send('Listing is in the database already');
-      return;
-    }
     const response = await listings.create(listing);
     if(response) {
       listing.id = response.insertId;

@@ -10,6 +10,7 @@ const users = {
       connection.query('INSERT INTO users SET ?;', user, (err, result) => {
         connection.release();
         if(err) {
+          console.log(err);
           reject(err);
         } else {
           resolve(result);
@@ -25,6 +26,7 @@ const users = {
       connection.query('SELECT * FROM users WHERE email LIKE ?;', email, (err, result) => {
         connection.release();
         if(err) {
+          console.log(result);
           return reject(err);
         }
         resolve(result);

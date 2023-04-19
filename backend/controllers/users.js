@@ -6,14 +6,14 @@ const users = require('../models/users');
 
 const signUpUser = async (req, res) => {
   const { name, email, password} = req.body;
-
+  console.log('1');
   let hashedPassword;
   try {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (err) {
     return res.status(500).send('Could not create user, try again please');
   }
-
+  console.log('2');
   const newUser = {
     id: v4(),
     name,
@@ -22,12 +22,15 @@ const signUpUser = async (req, res) => {
   };
 
   try {
+    console.log('3');
     const exist = await users.findByEmail(newUser.email);
+    console.log('4');
     if(exist.length > 0) {
       return res.status(422).send('Could not create user, user exists');
     }
 
     const result = await users.create(newUser);
+    console.log(result);
     if(!result) {
       return res.status(500).send('Could not create user, try again please');
     }

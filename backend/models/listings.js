@@ -21,7 +21,7 @@ const listings = {
       if(err) {
         return reject(err);
       }
-      const selectQuery = 'SELECT * FROM listings WHERE id=?;';
+      const selectQuery = 'SELECT * FROM listings WHERE id = ?;';
       connection.query(selectQuery, id, (err, result) => {
         connection.release();
         if(err) {

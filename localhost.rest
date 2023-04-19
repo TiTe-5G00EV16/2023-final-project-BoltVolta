@@ -2,8 +2,7 @@ GET http://localhost:5000/api/listings
 
 
 ###
-GET http://localhost:5000/api/listings/2
-
+GET http://localhost:5000/api/listings/5
 
 ###
 POST http://localhost:5000/api/listings
@@ -21,7 +20,7 @@ Authorization: BEARER {{authToken}}
 }
 
 ###
-DELETE http://localhost:5000/api/listings/4
+DELETE http://localhost:5000/api/listings/3
 Authorization: BEARER {{authToken}}
 
 ###
@@ -47,4 +46,4 @@ Content-Type: application/json
 }
 
 ###
-@authToken = {login.response.body.token}
+@authToken = {{login.response.body.token}}
