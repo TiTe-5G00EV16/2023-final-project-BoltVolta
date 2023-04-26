@@ -6,11 +6,11 @@ const connection = require('../db/pool');
 
 const app = require('../app');
 
-describe('GET cities endpoint', ()=> {
+describe('GET listings endpoint', ()=> {
 
   test('should return 200', (done)=> {
     supertest(app)
-      .get('/api/cities')
+      .get('/api/listings')
       .expect(200)
       .end(done)
   });
@@ -18,9 +18,9 @@ describe('GET cities endpoint', ()=> {
   test('should return json data', async ()=> {
 
     const response = await supertest(app)
-        .get('/api/cities')
+        .get('/api/listings')
         .set('Accept', 'application/json');
-    
+
     expect(response.status).toEqual(200);
     expect(response.headers['content-type']).toMatch(/json/);
 
@@ -28,13 +28,21 @@ describe('GET cities endpoint', ()=> {
       expect.arrayContaining([
         expect.objectContaining({
           id: 1,
-          capital: 'Oslo',
-          country: 'Norway'
-        }), 
+          title: 'Microphone',
+          price: '600',
+          seller: 1,
+          phone:"0451235698",
+          description:'mic test',
+          image: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Shure_mikrofon_55S.jpg'
+        }),
         expect.objectContaining({
           id: 2,
-          capital: 'Pretoria',
-          country: 'South Africa'
+          title: 'Bike',
+          price: '50',
+          seller: 1,
+          phone:"0451235698",
+          description:'bicycle test',
+          image: 'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81wGn2TQJeL._SX425_.jpg'
         }),
       ])
     )
@@ -42,18 +50,18 @@ describe('GET cities endpoint', ()=> {
 
 });
 
-describe('GET city by id enpoint', () => {
+describe('GET listings by id enpoint', () => {
 
   test('should return 200 if item was found', (done) => {
     supertest(app)
-      .get('/api/cities/1')
+      .get('/api/listings/1')
       .expect(200)
       .end(done);
   });
 
   test('should return 200 and json if the item was found', async() => {
     const response = await supertest(app)
-      .get('/api/cities/1')
+      .get('/api/listings/1')
       .set('Accept', 'application/json');
 
     expect(response.status).toEqual(200);
@@ -61,15 +69,19 @@ describe('GET city by id enpoint', () => {
     expect(response.body).toEqual(
       expect.objectContaining({
         id: 1,
-        capital: 'Oslo',
-        country: 'Norway'
+        title: 'Microphone',
+        price: '600',
+        seller: 1,
+        phone:"0451235698",
+        description:'mic test',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Shure_mikrofon_55S.jpg'
       })
     );
   });
 
 });
 
-describe('POST city endpoint', ()=> {
+describe('POST listings endpoint', ()=> {
 
   const loggedInUser = {
     id: '',
@@ -78,10 +90,10 @@ describe('POST city endpoint', ()=> {
   }
 
   beforeAll(async () => {
-    connection.query('DELETE FROM users WHERE email=?', ['john.wayne@domain.com'])
+    connection.query('DELETE FROM users WHERE email=?', ['test1@test.com'])
     const data = {
-      name: 'John Wayne',
-      email: 'john.wayne@domain.com',
+      name: 'test1',
+      email: 'test1@test.com',
       password: 'password123'
     }
 
@@ -96,7 +108,7 @@ describe('POST city endpoint', ()=> {
   })
 
   afterAll(async() => {
-    const deleteQuery = `DELETE FROM cities WHERE capital LIKE 'Test Town' AND country LIKE 'Test Country';`;
+    const deleteQuery = `DELETE FROM listings WHERE title LIKE 'Microphone';`;
     connection.query(deleteQuery, (err, result) => {
       if(err) {
         console.log(err);
@@ -104,29 +116,35 @@ describe('POST city endpoint', ()=> {
     });
   });
 
-  test('should create a new city', async() => {
-    const city = {
-      capital: 'Test Town',
-      country: 'Test Country'
+  test('should create a new listing', async() => {
+    const listing = {
+      title: 'Microphone',
+      price: '600',
+      seller: 1,
+      phone:'0451235698',
+      description:'mic test',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Shure_mikrofon_55S.jpg'
     }
 
     const response = await supertest(app)
-      .post('/api/cities')
+      .post('/api/listings')
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     expect(response.status).toEqual(201);
     expect(response.headers['content-type']).toMatch(/json/);
     expect(response.body.id).toBeTruthy();
-    expect(response.body.capital).toEqual('Test Town');
-    expect(response.body.country).toEqual('Test Country');
+    expect(response.body.title).toEqual('Microphone');
+    expect(response.body.price).toEqual('600');
+    expect(response.body.seller).toEqual('1');
+    expect(response.body.phone).toEqual('0451235698');
   });
 
-  test('should not create a city without a capital property', async() => {
-    const city = {
-      country: 'Test Country'
+  test('should not create a listing without a title property', async() => {
+    const listing = {
+      price: 'Test price'
     }
 
     const response = await supertest(app)
@@ -134,15 +152,15 @@ describe('POST city endpoint', ()=> {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     expect(response.status).toEqual(400);
-    expect(response.text).toContain('"capital" is required');
+    expect(response.text).toContain('"title" is required');
   });
 
-  test('should not create a city without a country property', async() => {
-    const city = {
-      capital: 'Test Town'
+  test('should not create a listing without a price property', async() => {
+    const listing = {
+      title: 'Test Listing'
     }
 
     const response = await supertest(app)
@@ -150,16 +168,16 @@ describe('POST city endpoint', ()=> {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     expect(response.status).toEqual(400);
-    expect(response.text).toContain('"country" is required');
+    expect(response.text).toContain('"title" is required');
   });
 
-  test('should not create a city with an empty capital value', async() => {
-    const city = {
-      capital: "",
-      country: 'Test Country'
+  test('should not create a listing with an empty title value', async() => {
+    const listing = {
+      title: "",
+      price: 'Test price'
     }
 
     const response = await supertest(app)
@@ -167,16 +185,16 @@ describe('POST city endpoint', ()=> {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     expect(response.status).toEqual(400);
-    expect(response.text).toContain('"capital" is not allowed to be empty');
+    expect(response.text).toContain('"title" is not allowed to be empty');
   });
 
-  test('should not create a city with an empty country value', async() => {
-    const city = {
-      capital: 'Test Town',
-      country: ''
+  test('should not create a listing with an empty price value', async() => {
+    const listing = {
+      title: 'Test Listing',
+      price: ''
     }
 
     const response = await supertest(app)
@@ -184,16 +202,16 @@ describe('POST city endpoint', ()=> {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     expect(response.status).toEqual(400);
-    expect(response.text).toContain('"country" is not allowed to be empty');
+    expect(response.text).toContain('"price" is not allowed to be empty');
   });
 
-  test('should not create a city capital with a too short value', async() => {
-    const city = {
-      capital: "Rig",
-      country: 'Test Country'
+  test('should not create a listing title with a too short value', async() => {
+    const listing = {
+      title: "Rig",
+      price: 'Test price'
     }
 
     const response = await supertest(app)
@@ -201,16 +219,16 @@ describe('POST city endpoint', ()=> {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     expect(response.status).toEqual(400);
-    expect(response.text).toContain('"capital" length must be at least 4 characters long');
+    expect(response.text).toContain('"title" length must be at least 4 characters long');
   });
 
-  test('should not create a city country with a too short value', async() => {
-    const city = {
-      capital: "Test Town",
-      country: 'Ira'
+  test('should not create a listing price with a too short value', async() => {
+    const listing = {
+      title: "Test Listing",
+      price: 'Ira'
     }
 
     const response = await supertest(app)
@@ -218,16 +236,16 @@ describe('POST city endpoint', ()=> {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     expect(response.status).toEqual(400);
-    expect(response.text).toContain('"country" length must be at least 4 characters long');
+    expect(response.text).toContain('"price" length must be at least 4 characters long');
   });
 
-  test('should not create a duplicate city', async() => {
-    const city = {
-      capital: "Oslo",
-      country: 'Norway'
+  test('should not create a duplicate listing', async() => {
+    const listing = {
+      title: "Oslo",
+      price: 'Norway'
     }
 
     const response = await supertest(app)
@@ -235,15 +253,15 @@ describe('POST city endpoint', ()=> {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     expect(response.status).toEqual(400);
-    expect(response.text).toContain('City is in the database already');
+    expect(response.text).toContain('listing is in the database already');
   });
 
 });
 
-describe('DELETE cities endpoint', () => { 
+describe('DELETE cities endpoint', () => {
   const loggedInUser = {
     id: '',
     email: '',
@@ -268,10 +286,10 @@ describe('DELETE cities endpoint', () => {
     loggedInUser.token = response.body.token
   })
 
-  test('should delete the city by id', async () => {
-    const city = {
-      capital: 'Test Town Delete',
-      country: 'Test Country Delete'
+  test('should delete the listing by id', async () => {
+    const listing = {
+      title: 'Test Listing Delete',
+      price: 'Test price Delete'
     };
 
     const postResponse = await supertest(app)
@@ -279,17 +297,17 @@ describe('DELETE cities endpoint', () => {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .set('Authorization', 'Bearer ' + loggedInUser.token)
-      .send(city);
+      .send(listing);
 
     const postId = postResponse.body.id;
-    
+
     const deleteResponse = await supertest(app)
       .delete(`/api/cities/${postId}`)
       .set('Authorization', 'Bearer ' + loggedInUser.token)
       .set('Accept', 'application/json');
 
     expect(deleteResponse.status).toEqual(200);
-    expect(deleteResponse.text).toContain('City deleted');
+    expect(deleteResponse.text).toContain('listing deleted');
 
-  }); 
+  });
 });

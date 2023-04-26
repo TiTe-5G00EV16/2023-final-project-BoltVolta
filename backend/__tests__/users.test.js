@@ -5,11 +5,11 @@ const connection = require('../db/pool');
 
 const app = require('../app');
 
-describe('SIGNUP users endpoint', () => { 
+describe('SIGNUP users endpoint', () => {
 
   beforeAll(async () => {
    const deleteQuery = 'DELETE FROM users WHERE email=?;'
-    connection.query(deleteQuery, ['tony@stark.com'], (err, result) => {
+    connection.query(deleteQuery, ['test1@test.com'], (err, result) => {
       if(err) {
         console.log(err);
       }
@@ -18,8 +18,8 @@ describe('SIGNUP users endpoint', () => {
 
   test('should signup user with valid credentials', async () => {
     const data = {
-      name: 'Tony Stark Wayne',
-      email: 'tony@stark.com',
+      name: 'test1',
+      email: 'test1@test.com',
       password: 'password123'
     }
 
@@ -34,12 +34,12 @@ describe('SIGNUP users endpoint', () => {
       expect(response.body.id).toBeTruthy();
       expect(response.body.email).toBeTruthy();
       expect(response.body.token).toBeTruthy();
-  }); 
+  });
 
   test('should login user with valid credentials', async () => {
     const data = {
-      name: 'Tony Stark Wayne',
-      email: 'tony@stark.com',
+      name: 'test1',
+      email: 'test1@test.com',
       password: 'password123'
     }
 
@@ -54,6 +54,6 @@ describe('SIGNUP users endpoint', () => {
       expect(response.body.id).toBeTruthy();
       expect(response.body.email).toBeTruthy();
       expect(response.body.token).toBeTruthy();
-  }); 
-  
+  });
+
 });
