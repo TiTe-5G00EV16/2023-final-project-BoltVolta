@@ -9,7 +9,17 @@
   cursor: pointer;
   margin-right: 1rem;
   text-decoration: none;
-  display: inline-block;
+}
+.button__delete {
+  position: absolute;
+  bottom: 5%;
+  right: 2%;
+}
+.button__edit {
+
+  position: absolute;
+  bottom: 5%;
+  right: 12%;
 }
 
 .button:focus {
@@ -31,6 +41,17 @@
 .button--inverse:active {
   color: white;
   background: #4285F4;
+}
+
+.button--edit {
+  background: transparent;
+  color: #6bf442;
+}
+
+.button--edit:hover,
+.button--edit:active {
+  color: white;
+  background: #6bf442;
 }
 
 .button--danger {

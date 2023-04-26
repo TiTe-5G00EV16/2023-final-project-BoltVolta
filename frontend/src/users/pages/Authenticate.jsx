@@ -36,7 +36,6 @@ const Authenticate = props => {
   const loginUserMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      console.log(data);
       auth.login(data.id, data.token);
     },
     onError: (error) => {
@@ -68,7 +67,7 @@ const Authenticate = props => {
           <Input id="name" ref={nameRef} type="text" label="Name" />
         }
         <Input id="email" ref={emailRef} type="email" label="Email" />
-        <Input id="password" ref={passwordRef} type="password" label="Password" /> 
+        <Input id="password" ref={passwordRef} type="password" label="Password" />
         <Button type="submit">
           {isLoginMode? 'LOGIN' : 'SIGNUP'}
         </Button>

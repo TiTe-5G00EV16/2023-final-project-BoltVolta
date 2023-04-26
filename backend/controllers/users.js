@@ -5,26 +5,22 @@ const jwt = require('jsonwebtoken');
 const users = require('../models/users');
 
 const signUpUser = async (req, res) => {
-  const { name, email, password} = req.body;
-  console.log('1');
+  const { id, name, email, password} = req.body;
   let hashedPassword;
   try {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (err) {
     return res.status(500).send('Could not create user, try again please');
   }
-  console.log('2');
   const newUser = {
-    id: v4(),
+    id,  //id: v4(),
     name,
     email,
     password: hashedPassword
   };
 
   try {
-    console.log('3');
     const exist = await users.findByEmail(newUser.email);
-    console.log('4');
     if(exist.length > 0) {
       return res.status(422).send('Could not create user, user exists');
     }
@@ -99,7 +95,34 @@ const loginUser = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  try {
+    const response = await users.findAll();
+    if(response) {
+      res.send(response);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Something went wrong");
+  }
+};
+
+const getUserByEmail = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const response = await users.findByEmail(email);
+    if(response) {
+      res.send(response);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Something went wrong");
+  }
+};
+
 module.exports = {
   loginUser,
-  signUpUser
+  signUpUser,
+  getUserByEmail,
+  getUsers
 }

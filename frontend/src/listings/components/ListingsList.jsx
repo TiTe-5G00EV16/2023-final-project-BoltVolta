@@ -21,8 +21,7 @@ const ListingsList = props => {
         title={listing.title}
         price={listing.price}
         seller={listing.seller}
-        categoryid={listing.categoryid}
-        contact={listing.contact}
+        phone={listing.phone}
         description={listing.description}
         image={listing.image}
       />

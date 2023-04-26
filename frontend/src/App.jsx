@@ -1,10 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch }
-from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "react-query";
 import Listings from './listings/pages/Listings';
 import AddListing from './listings/pages/AddListing';
@@ -71,6 +66,9 @@ function App() {
     routes = (
       <Switch>
         <Route path="/" exact>
+          <Listings />
+        </Route>
+        <Route path="/user-listings" exact>
           <Listings />
         </Route>
         <Route path="/users" exact>

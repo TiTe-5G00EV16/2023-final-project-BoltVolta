@@ -3,5 +3,7 @@
   margin: 1rem auto;
   padding: 0;
   width: 90%;
-  max-width: 40rem;
+  height: 20%;
+  max-height: 20rem;
+  max-width: 80rem;
 }

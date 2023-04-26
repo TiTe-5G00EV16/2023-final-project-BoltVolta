@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRef } from "react";
 
 import "./Dropdown.css";
 
@@ -25,6 +26,8 @@ const Dropdown = ({ placeHolder, options, isMulti, isSearchable, onChange }) => 
   const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null);
   const [searchValue, setSearchValue] = useState("");
   const searchRef = useRef();
+  const inputRef = useRef();
+  let selectedVal;
 
   useEffect(() => {
     setSearchValue("");
@@ -47,7 +50,6 @@ const Dropdown = ({ placeHolder, options, isMulti, isSearchable, onChange }) => 
   });
 
   const handleInputClick = (e) => {
-    e.stopPropagation();
     setShowMenu(!showMenu);
   }
 
@@ -67,6 +69,7 @@ const Dropdown = ({ placeHolder, options, isMulti, isSearchable, onChange }) => 
             </div>
         );
     }
+    selectedVal = selectedValue.value;
     return selectedValue.label;
 };
 
@@ -75,8 +78,9 @@ const removeOption = (option) => {
 };
 
 const onTagRemove = (e, option) => {
-    e.stopPropagation();
-    setSelectedValue(removeOption(option));
+    const newValue = removeOption(option);
+    setSelectedValue(newValue);
+    onChange(newValue);
 };
 
 const onItemClick = (option) => {
@@ -118,6 +122,7 @@ const onItemClick = (option) => {
         option.label.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
     );
   };
+
   return (
     <div className="dropdown-container">
       <div ref={inputRef} onClick={handleInputClick} className="dropdown-input">

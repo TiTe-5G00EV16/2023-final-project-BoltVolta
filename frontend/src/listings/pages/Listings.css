@@ -1,0 +1,14 @@
+.listings-page-dropdowns {
+  text-align: center;
+  display: flex;
+  column-gap: 10px;
+  max-height: fit-content;
+}
+
+.listings-page-dropdowns > * {
+  flex: 1;
+}
+
+.listings {
+    padding-top: 2rem;
+}

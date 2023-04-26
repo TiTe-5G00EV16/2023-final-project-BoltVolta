@@ -1,22 +1,44 @@
 GET http://localhost:5000/api/listings
 
+###
+GET http://localhost:5000/api/users
+Authorization: BEARER {{authToken}}
 
 ###
-GET http://localhost:5000/api/listings/5
+GET http://localhost:5000/api/listings/user-listings/2
+Authorization: BEARER {{authToken}}
 
 ###
-POST http://localhost:5000/api/listings
+GET http://localhost:5000/api/listings/
+
+###
+POST http://localhost:5000/api/listings/new
 Content-Type: application/json
 Authorization: BEARER {{authToken}}
 
 {
   "title": "Microphone",
   "price": "600",
-  "seller":"Admin",
-  "categoryid":"1",
-  "contact":"0451235698",
+  "seller": 2,
+  "phone":"0451235698",
   "description":"test",
-  "image": "test.jpg"
+  "image": "a.jpg"
+}
+
+###
+PATCH http://localhost:5000/api/listings/5
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+  "title": "Microphone",
+  "price": "10",
+  "seller":"admin",
+  "categoryid":4,
+  "email": "admin@root.com",
+  "phone":"0451235698",
+  "description":"patch test",
+  "image": "update test.jpg"
 }
 
 ###
@@ -28,9 +50,9 @@ POST http://localhost:5000/api/users/signup
 Content-Type: application/json
 
 {
-    "name": "John Wayne",
-    "email": "john@wayne.com",
-    "password": "john@wayne"
+    "name": "admin",
+    "email": "admin@root.com",
+    "password": "admin123"
 
 }
 
@@ -40,8 +62,8 @@ POST http://localhost:5000/api/users/login
 Content-Type: application/json
 
 {
-    "email": "john@wayne.com",
-    "password": "john@wayne"
+    "email": "admin@root.com",
+    "password": "admin123"
 
 }
 

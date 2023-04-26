@@ -10,11 +10,12 @@ import { AuthContext } from '../../shared/context/auth-context';
 
 import { createListing } from '../api/listings';
 
+//import Dropdown from "../../shared/components/dropdown/Dropdown";
+//import { useState } from 'react';
+
 const AddListing = () => {
   const titleRef = useRef();
   const priceRef = useRef();
-  const sellerRef = useRef();
-  const categoryidRef = useRef();
   const contactRef = useRef();
   const descriptionRef = useRef();
   const imageRef = useRef();
@@ -25,28 +26,27 @@ const AddListing = () => {
   const createListingMutation = useMutation({
     mutationFn: createListing
   })
-
   const listingSubmitHandler = (event) => {
     event.preventDefault();
     createListingMutation.mutate({
-      capital: capitalRef.current.value,
-      country: countryRef.current.value,
+      title: titleRef.current.value,
+      price: priceRef.current.value,
+      phone: contactRef.current.value,
+      seller: auth.userId,
+      description: descriptionRef.current.value,
       image: imageRef.current.value,
       token: auth.token
     })
     history.push('/');
   }
-
   return (
     <form className='listing-form' onSubmit={listingSubmitHandler}>
       <Input id="title" ref={titleRef} type="text" label="Title" />
       <Input id="price" ref={priceRef} type="text" label="Price" />
-      <Input id="seller" ref={sellerRef} type="text" label="Seller" />
-      <Input id="categoryid" ref={categoryidRef} type="number" label="Category" />
-      <Input id="contact" ref={contactRef} type="number" label="Contact" />
+      <Input id="phone" ref={contactRef} type="number" label="Phone number" />
       <Input id="description" ref={descriptionRef} type="text" label="Description" />
       <Input id="image" ref={imageRef} type="text" label="Image Link" />
-      <Button id="add-listing">
+      <Button onSubmit={listingSubmitHandler}>
         Add Listing
       </Button>
     </form>

@@ -1,17 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { useMutation } from 'react-query';
 
 import Card from '../../shared/components/card/Card';
 import Button from '../../shared/components/button/Button';
 import Modal from '../../shared/components/modal/Modal';
 
+import Input from '../../shared/components/input/Input'
+
 import { AuthContext } from '../../shared/context/auth-context';
-import { deleteListing } from "../api/listings";
+import { deleteListing, editListing } from "../api/listings";
 
 import './ListingItem.css';
 
 const ListingItem = props => {
   const auth = useContext(AuthContext);
+
+  const titleRef = useRef();
+  const priceRef = useRef();
+  const sellerRef = useRef();
+  const descriptionRef = useRef();
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
@@ -28,6 +35,16 @@ const ListingItem = props => {
     }
   })
 
+  const editListingMutation = useMutation({
+    mutationFn: editListing,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error)
+    }
+  })
+
   const deleteConfirmedHandler = () => {
     setShowConfirmationModal(false);
     console.log("Do we get here?");
@@ -35,6 +52,17 @@ const ListingItem = props => {
       id: props.id,
       token: auth.token
     })
+  }
+
+  const listingSubmitHandler = (event) => {
+    event.preventDefault();
+    editListingMutation.mutate({
+      title: titleRef.current.value,
+      price: priceRef.current.value,
+      description: descriptionRef.current.value,
+      token: auth.token
+    })
+    history.replace('/');
   }
 
   return (
@@ -53,17 +81,51 @@ const ListingItem = props => {
         <p>Are you sure? Once it's gone, it's gone!</p>
       </Modal>
 
+      <Modal
+        show={showConfirmationModal}
+        header="Edit Listing"
+        footerClass="place-item__modal-actions"
+        footer={
+          <>
+            <Button inverse onClick={cancelConfirmationHandler}>Cancel</Button>
+            <Button edit onClick={listingSubmitHandler}>Edit</Button>
+          </>
+        }
+      >
+          <Input id="title" ref={titleRef} type="text" label="Title" />
+          <Input id="price" ref={priceRef} type="number" label="Price" />
+          <Input id="description" ref={descriptionRef} type="text" label="Description" />
+      </Modal>
+
       <li className="listing-item">
         <Card className="listing-item__content">
           <div className="listing-item__image">
-            <img src={props.image} alt={props.capital} />
+            <img src={props.image} alt={props.title} />
           </div>
-          <div className="listing-item__info">
-            <h3>{props.capital} - {props.country}</h3>
+          <div className="listing-item__info__left">
+            <h2>{props.title}</h2>
+            <p>{props.price}&euro;{" "}</p>
+          </div>
+          <div className="listing-item__info__right">
+            <h2>{props.seller}</h2>
+            <p>{props.contact}</p>
+          </div>
+          <div className="listing-item__info__description__header">
+            <p>Description:</p>
+          </div>
+          <div className="listing-item__info__description">
+            <p>{props.description}</p>
           </div>
           <div className="listing-item_actions">
             {auth.isLoggedIn && (
+              <div className="button__edit">
+              <Button inverse onClick={showConfirmationHandler}>Edit</Button>
+              </div>
+            )}
+            {auth.isLoggedIn && (
+              <div className="button__delete">
               <Button danger onClick={showConfirmationHandler}>Delete</Button>
+              </div>
             )}
           </div>
         </Card>

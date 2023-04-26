@@ -1,6 +1,9 @@
 import React from "react";
+import { useQuery } from 'react-query'
 
-import UsersList from "../components/UsersList";
+import { getUsers } from "../api/users";
+import UsersList from '../components/UsersList';
+import LoadingSpinner from '../../shared/components/loadingspinner/LoadingSpinner'
 
 const DUMMY_USERS = [
   {
@@ -15,11 +18,41 @@ const DUMMY_USERS = [
     id: 'nbvvbnbv',
     name: 'Tony Stark',
     email: 'tony@stark.com'
+  },{
+    id: 'nbvvaaav',
+    name: 'Lony Stark',
+    email: 'lony@stark.com'
+  },{
+    id: 'nbvvbbbv',
+    name: 'Hony Stark',
+    email: 'hony@stark.com'
+  },{
+    id: 'nbggbnbv',
+    name: 'Bony Stark',
+    email: 'bony@stark.com'
   }
 ];
 
 const Users = () => {
-  return <UsersList items={DUMMY_USERS} />;
+
+  const { isLoading, error, data } = useQuery(
+    "usersData",
+    getUsers
+  );
+  console.log(data);
+
+  if (isLoading) return (
+    <div className="center">
+      <LoadingSpinner />;
+    </div>
+  );
+
+  if (error) return "An error has occurred: " + error.message;
+  return (
+    <div>
+      <UsersList items={data} />
+    </div>
+  )
 };
 
 export default Users;
