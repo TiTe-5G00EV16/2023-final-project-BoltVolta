@@ -25,5 +25,5 @@ CREATE TABLE IF NOT EXISTS `listings` (
 INSERT INTO `users` (`name`, `email`, `password`) VALUES ('test1', 'test1@test.com', 'test1');
 INSERT INTO `users` (`name`, `email`, `password`) VALUES ('test2', 'test2@test.com', 'test2');
 
-INSERT INTO `listings` (`title`,`price`,`seller`, `phone`,`image`) VALUES ('Bike', 80, 1, '0451223682','https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81wGn2TQJeL._SX425_.jpg');
-INSERT INTO `listings` (`title`,`price`,`seller`, `phone`,`image`) VALUES ('Nike Shoes', 30, 2, '0452323881','https://static.nike.com/a/images/t_default/b6e11cbd-509d-483d-b21d-850e2d7924ca/alphafly-2-road-racing-shoes-fvDSdT.png');
+INSERT INTO `listings` (`title`,`price`,`seller`, `phone`, `description`, `image`) VALUES ('Bike', 80, 1, '0451223682', 'testing', 'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81wGn2TQJeL._SX425_.jpg');
+INSERT INTO `listings` (`title`,`price`,`seller`, `phone`, `description`, `image`) VALUES ('Nike Shoes', 30, 2, '0452323881', 'testing', 'https://static.nike.com/a/images/t_default/b6e11cbd-509d-483d-b21d-850e2d7924ca/alphafly-2-road-racing-shoes-fvDSdT.png');

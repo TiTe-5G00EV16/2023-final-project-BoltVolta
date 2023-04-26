@@ -42,7 +42,7 @@ Authorization: BEARER {{authToken}}
 }
 
 ###
-DELETE http://localhost:5000/api/listings/3
+DELETE http://localhost:5000/api/listings/4
 Authorization: BEARER {{authToken}}
 
 ###

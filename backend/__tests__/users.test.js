@@ -1,4 +1,4 @@
-const { describe, test, expect, afterAll } = require('@jest/globals');
+const { describe, test, expect, beforeAll } = require('@jest/globals');
 const supertest = require('supertest');
 
 const connection = require('../db/pool');
@@ -18,8 +18,8 @@ describe('SIGNUP users endpoint', () => {
 
   test('should signup user with valid credentials', async () => {
     const data = {
-      name: 'test1',
-      email: 'test1@test.com',
+      name: 'test',
+      email: 'test@test.com',
       password: 'password123'
     }
 
@@ -38,8 +38,8 @@ describe('SIGNUP users endpoint', () => {
 
   test('should login user with valid credentials', async () => {
     const data = {
-      name: 'test1',
-      email: 'test1@test.com',
+      name: 'test',
+      email: 'test@test.com',
       password: 'password123'
     }
 
@@ -48,7 +48,7 @@ describe('SIGNUP users endpoint', () => {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .send(data)
-
+      console.log(response.body.id);
       expect(response.status).toEqual(201);
       expect(response.headers['content-type']).toMatch(/json/);
       expect(response.body.id).toBeTruthy();
