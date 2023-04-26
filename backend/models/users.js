@@ -48,6 +48,21 @@ const users = {
       });
     });
   }),
+  findUserById: (id) => new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if(err) {
+        return reject(err);
+      }
+      connection.query('SELECT * FROM users WHERE id LIKE ?;', id, (err, result) => {
+        connection.release();
+        if(err) {
+          console.log(result);
+          return reject(err);
+        }
+        resolve(result);
+      });
+    });
+  }),
   findByEmail: (email) => new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if(err) {

@@ -22,12 +22,6 @@ CREATE TABLE IF NOT EXISTS `listings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category` char(40) NOT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 INSERT INTO `users` (`name`, `email`, `password`) VALUES ('test1', 'test1@test.com', 'test1');
 INSERT INTO `users` (`name`, `email`, `password`) VALUES ('test2', 'test2@test.com', 'test2');
 

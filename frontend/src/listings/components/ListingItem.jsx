@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from "react";
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 
 import Card from '../../shared/components/card/Card';
 import Button from '../../shared/components/button/Button';
@@ -17,13 +17,16 @@ const ListingItem = props => {
 
   const titleRef = useRef();
   const priceRef = useRef();
-  const sellerRef = useRef();
   const descriptionRef = useRef();
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const showConfirmationHandler = () => setShowConfirmationModal(true);
+  const showEditHandler = () => setShowEditModal(true);
   const cancelConfirmationHandler = () => setShowConfirmationModal(false);
+  const cancelEditHandler = () => setShowEditModal(false);
+
 
   const deleteListingMutation = useMutation({
     mutationFn: deleteListing,
@@ -62,7 +65,7 @@ const ListingItem = props => {
       description: descriptionRef.current.value,
       token: auth.token
     })
-    history.replace('/');
+    history.replace('/', []);
   }
 
   return (
@@ -82,12 +85,12 @@ const ListingItem = props => {
       </Modal>
 
       <Modal
-        show={showConfirmationModal}
+        show={showEditModal}
         header="Edit Listing"
         footerClass="place-item__modal-actions"
         footer={
           <>
-            <Button inverse onClick={cancelConfirmationHandler}>Cancel</Button>
+            <Button inverse onClick={cancelEditHandler}>Cancel</Button>
             <Button edit onClick={listingSubmitHandler}>Edit</Button>
           </>
         }
@@ -107,7 +110,7 @@ const ListingItem = props => {
             <p>{props.price}&euro;{" "}</p>
           </div>
           <div className="listing-item__info__right">
-            <h2>{props.seller}</h2>
+            <h2></h2>
             <p>{props.contact}</p>
           </div>
           <div className="listing-item__info__description__header">
@@ -119,7 +122,7 @@ const ListingItem = props => {
           <div className="listing-item_actions">
             {auth.isLoggedIn && (
               <div className="button__edit">
-              <Button inverse onClick={showConfirmationHandler}>Edit</Button>
+              <Button inverse onClick={showEditHandler}>Edit</Button>
               </div>
             )}
             {auth.isLoggedIn && (

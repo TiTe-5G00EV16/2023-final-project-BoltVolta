@@ -1,25 +1,25 @@
 GET http://localhost:5000/api/listings
 
 ###
-GET http://localhost:5000/api/users
+GET http://localhost:5000/api/users/
 Authorization: BEARER {{authToken}}
 
 ###
-GET http://localhost:5000/api/listings/user-listings/2
+GET http://localhost:5000/api/listings/user-listings/
 Authorization: BEARER {{authToken}}
 
 ###
 GET http://localhost:5000/api/listings/
 
 ###
-POST http://localhost:5000/api/listings/new
+POST http://localhost:5000/api/listings/
 Content-Type: application/json
 Authorization: BEARER {{authToken}}
 
 {
   "title": "Microphone",
   "price": "600",
-  "seller": 2,
+  "seller": 3,
   "phone":"0451235698",
   "description":"test",
   "image": "a.jpg"

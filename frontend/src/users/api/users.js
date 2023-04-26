@@ -5,6 +5,14 @@ export const getUsers = async () => {
   return await res.json();
 }
 
+export const getUserById = async ({queryKey}) => {
+  console.log(queryKey)
+  const res = await fetch(
+    `${import.meta.env.VITE_API_URL}/api/users/${queryKey.id}`
+    );
+    return await res.json();
+};
+
 export const signUpUser = async ({name, email, password}) => {
   const res = await fetch(
     `${import.meta.env.VITE_API_URL}/api/users/signup`,

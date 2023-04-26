@@ -30,14 +30,13 @@ const createListing = async (req, res) => {
     title: Joi.string().min(4).required(),
     price: Joi.number().min(1).required(),
     seller: Joi.number().min(1).required(),
-    categoryid: Joi.number().min(1).required(),
     phone: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
-    description: Joi.string().min(4).required(),
+    description: Joi.string(),
     image: Joi.string()
   });
   const { error } = schema.validate(req.body);
   if(error) {
-    res.status(400).send(error.details[0].message);
+    res.status(400).send({message:error.details[0].message});
     return;
   }
 
@@ -45,7 +44,6 @@ const createListing = async (req, res) => {
     title: req.body.title,
     price: req.body.price,
     seller: req.body.seller,
-    categoryid: req.body.categoryid,
     phone: req.body.phone,
     description: req.body.description,
     image: req.body.image
@@ -59,7 +57,7 @@ const createListing = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).send({message:"Something went wrong"});
   }
 };
 
@@ -95,7 +93,7 @@ const deleteListing = async (req, res) => {
       res.send(response[0]);
     }
   } catch (err) {
-    res.status(500).send("Something went wrong");
+    res.status(500).send({message:"Something went wrong"});
   }
 };
 
@@ -107,47 +105,36 @@ const getListingBySeller = async (req, res) => {
       res.send(response);
     }
   } catch (err) {
-    res.status(500).send("Something went wrong");
+    res.status(500).send({message:"Something went wrong"});
   }
 };
 
 const updateListing = async (req, res) => {
   const schema = Joi.object({
-    title: Joi.string().min(4).required(),
-    price: Joi.number().min(1).required(),
-    seller: Joi.string().min(4).required(),
-    categoryid: Joi.number().min(1).required(),
-    email: Joi.string().min(8).required(),
-    phone: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
-    description: Joi.string().min(4).required(),
-    image: Joi.string()
+    title: Joi.string().min(4),
+    price: Joi.number().min(1),
+    description: Joi.string().min(4),
   });
   const { error } = schema.validate(req.body);
   if(error) {
-    res.status(400).send(error.details[0].message);
+    res.status(400).send({message:error.details[0].message});
     return;
   }
 
   const listing = {
     title: req.body.title,
     price: req.body.price,
-    seller: req.body.seller,
-    categoryid: req.body.categoryid,
-    email: req.body.email,
-    phone: req.body.phone,
     description: req.body.description,
-    image: req.body.image
   }
 
   try {
-    const response = await listings.create(listing);
+    const response = await listings.updateListing(listing);
     if(response) {
-      listing.id = response.insertId;
       res.status(201).send(listing);
     }
   } catch (err) {
     console.log(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).send({message: "Something went wrong"});
   }
 };
 

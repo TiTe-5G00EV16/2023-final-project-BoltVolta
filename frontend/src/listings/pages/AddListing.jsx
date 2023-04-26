@@ -16,7 +16,7 @@ import { createListing } from '../api/listings';
 const AddListing = () => {
   const titleRef = useRef();
   const priceRef = useRef();
-  const contactRef = useRef();
+  const phoneRef = useRef();
   const descriptionRef = useRef();
   const imageRef = useRef();
 
@@ -31,7 +31,7 @@ const AddListing = () => {
     createListingMutation.mutate({
       title: titleRef.current.value,
       price: priceRef.current.value,
-      phone: contactRef.current.value,
+      phone: phoneRef.current.value,
       seller: auth.userId,
       description: descriptionRef.current.value,
       image: imageRef.current.value,
@@ -43,7 +43,7 @@ const AddListing = () => {
     <form className='listing-form' onSubmit={listingSubmitHandler}>
       <Input id="title" ref={titleRef} type="text" label="Title" />
       <Input id="price" ref={priceRef} type="text" label="Price" />
-      <Input id="phone" ref={contactRef} type="number" label="Phone number" />
+      <Input id="phone" ref={phoneRef} type="text" label="Phone number" />
       <Input id="description" ref={descriptionRef} type="text" label="Description" />
       <Input id="image" ref={imageRef} type="text" label="Image Link" />
       <Button onSubmit={listingSubmitHandler}>

@@ -10,7 +10,7 @@ router.get('/:id', getListingById);
 router.use(verifyToken);
 
 router.patch('/listings/:id', updateListing);
-router.post('/new', createListing);
+router.post('/', createListing);
 router.delete('/:id', deleteListing);
 router.get('/user-listings/:seller', getListingBySeller);
 

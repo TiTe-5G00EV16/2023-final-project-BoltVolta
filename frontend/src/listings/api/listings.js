@@ -5,20 +5,22 @@ export const getListings = async () => {
   return await res.json();
 };
 
-export const getUserListings = async ({seller, token}) => {
+export const getUserListings = async ({queryKey}) => {
+  const userInfo = queryKey[1];
+  console.log(userInfo);
     const res = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/listings/user-listings/${seller}`,
+    `${import.meta.env.VITE_API_URL}/api/listings/user-listings/${userInfo.seller}`,
     {
-      method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + token
+        'Accept': 'application/json',
+        Authorization: 'Bearer ' + userInfo.token
       }
     }
     );
   return await res.json();
 };
 
-export const createListing = async ({title, price, seller, categoryid, contact, description, image, token}) => {
+export const createListing = async ({title, price, seller, phone, description, image, token}) => {
   const res = await fetch(
     `${import.meta.env.VITE_API_URL}/api/listings`,
     {
@@ -32,7 +34,7 @@ export const createListing = async ({title, price, seller, categoryid, contact, 
         title,
         price,
         seller,
-        contact,
+        phone,
         description,
         image
       })
@@ -69,11 +71,7 @@ export const editListing = async ({id, token}) => {
       body: JSON.stringify({
         title,
         price,
-        seller,
-        categoryid,
-        contact,
-        description,
-        image
+        description
       })
     }
   );

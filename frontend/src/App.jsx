@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "react-query";
 import Listings from './listings/pages/Listings';
+import UserListings from './listings/pages/UserListings';
 import AddListing from './listings/pages/AddListing';
 import Users from './users/pages/Users';
 import Authenticate from './users/pages/Authenticate';
@@ -69,7 +70,7 @@ function App() {
           <Listings />
         </Route>
         <Route path="/user-listings" exact>
-          <Listings />
+          <UserListings />
         </Route>
         <Route path="/users" exact>
           <Users />
