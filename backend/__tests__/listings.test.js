@@ -83,9 +83,33 @@ describe('GET listings by id enpoint', () => {
 
 describe('GET listings by seller enpoint', () => {
 
+  const loggedInUser = {
+    id: '',
+    email: '',
+    token: ''
+  }
+
+  beforeAll(async () => {
+    connection.query('DELETE FROM users WHERE email=?', ['test10@test.com'])
+    const data = {
+      name: 'test10',
+      email: 'test10@test.com',
+      password: 'test10'
+    }
+    const response = await supertest(app)
+      .post('/api/users/signup')
+      .set('Accept', 'application/json')
+      .set('Content', 'application/json')
+      .send(data)
+    loggedInUser.id = response.body.id
+    loggedInUser.email = response.body.email
+    loggedInUser.token = response.body.token
+  })
+
   test('should return 200 if item was found', (done) => {
     supertest(app)
       .get('/api/listings/user-listings/2')
+      .set('Authorization', 'bearer ' + loggedInUser.token)
       .expect(200)
       .end(done);
   });
@@ -93,7 +117,8 @@ describe('GET listings by seller enpoint', () => {
   test('should return 200 and json if the item was found', async() => {
     const response = await supertest(app)
       .get('/api/listings/user-listings/2')
-      .set('Accept', 'application/json');
+      .set('Accept', 'application/json')
+      .set('Authorization', 'bearer ' + loggedInUser.token);
 
     expect(response.status).toEqual(200);
     expect(response.headers['content-type']).toMatch(/json/);
