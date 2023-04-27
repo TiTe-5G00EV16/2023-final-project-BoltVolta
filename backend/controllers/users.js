@@ -122,14 +122,13 @@ const getUserByEmail = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);;
     const response = await users.findUserById(id);
-    if(response) {
+    if (response) {
       res.send(response);
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).send({message:"Something went wrong"});
   }
 };
 

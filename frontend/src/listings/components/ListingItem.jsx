@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from "react";
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery  } from 'react-query';
 
 import Card from '../../shared/components/card/Card';
 import Button from '../../shared/components/button/Button';
@@ -11,6 +11,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import { deleteListing, editListing } from "../api/listings";
 
 import './ListingItem.css';
+import { getUserEmail } from "../../users/api/users";
 
 const ListingItem = props => {
   const auth = useContext(AuthContext);
@@ -26,7 +27,6 @@ const ListingItem = props => {
   const showEditHandler = () => setShowEditModal(true);
   const cancelConfirmationHandler = () => setShowConfirmationModal(false);
   const cancelEditHandler = () => setShowEditModal(false);
-
 
   const deleteListingMutation = useMutation({
     mutationFn: deleteListing,
@@ -65,9 +65,14 @@ const ListingItem = props => {
       description: descriptionRef.current.value,
       token: auth.token
     })
-    history.replace('/', []);
+    history.replace('/');
   }
 
+  const { isLoading, error, data, status } = useQuery({
+    queryKey: ['userEmail-' + props.seller, {id: props.seller}],
+    queryFn: getUserEmail
+  });
+  if (error) return "An error has occurred: " + error.message;
   return (
     <>
       <Modal
@@ -110,8 +115,9 @@ const ListingItem = props => {
             <p>{props.price}&euro;{" "}</p>
           </div>
           <div className="listing-item__info__right">
-            <h2></h2>
-            <p>{props.contact}</p>
+            <h2>{data[0].name}</h2>
+            <h2>{data[0].email}</h2>
+            <p>{props.phone}</p>
           </div>
           <div className="listing-item__info__description__header">
             <p>Description:</p>

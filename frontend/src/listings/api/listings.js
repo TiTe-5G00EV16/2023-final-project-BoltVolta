@@ -7,7 +7,6 @@ export const getListings = async () => {
 
 export const getUserListings = async ({queryKey}) => {
   const userInfo = queryKey[1];
-  console.log(userInfo);
     const res = await fetch(
     `${import.meta.env.VITE_API_URL}/api/listings/user-listings/${userInfo.seller}`,
     {

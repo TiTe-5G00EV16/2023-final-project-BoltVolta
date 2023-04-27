@@ -5,12 +5,15 @@ export const getUsers = async () => {
   return await res.json();
 }
 
-export const getUserById = async ({queryKey}) => {
-  console.log(queryKey)
-  const res = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/users/${queryKey.id}`
+export const getUserEmail = async ({queryKey}) => {
+  const userInfo = queryKey[1];
+  console.log("api call")
+  console.log(userInfo);
+    const res = await fetch(
+    `${import.meta.env.VITE_API_URL}/api/users/${userInfo.id}`,
     );
-    return await res.json();
+    //var log = console.log(await res.json());
+  return await res.json();
 };
 
 export const signUpUser = async ({name, email, password}) => {
