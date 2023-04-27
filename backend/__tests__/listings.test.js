@@ -104,6 +104,7 @@ describe('POST listings endpoint', ()=> {
     loggedInUser.id = response.body.id
     loggedInUser.email = response.body.email
     loggedInUser.token = response.body.token
+    console.log(loggedInUser)
   })
 
   afterAll(async() => {
@@ -196,7 +197,8 @@ describe('GET listings by seller enpoint', () => {
 
     expect(response.status).toEqual(200);
     expect(response.headers['content-type']).toMatch(/json/);
-    expect(response.body).objectContaining({
+    expect(response.body).toEqual([
+      expect.objectContaining({
         id: 2,
         title: 'Nike Shoes',
         price: 30,
@@ -204,7 +206,8 @@ describe('GET listings by seller enpoint', () => {
         phone:452323881,
         description: 'testing',
         image: 'https://static.nike.com/a/images/t_default/b6e11cbd-509d-483d-b21d-850e2d7924ca/alphafly-2-road-racing-shoes-fvDSdT.png'
-    })
+      })
+    ])
   });
 });
 
