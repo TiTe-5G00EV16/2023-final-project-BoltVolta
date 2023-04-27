@@ -72,6 +72,46 @@ const ListingItem = props => {
     queryKey: ['userEmail-' + props.seller, {id: props.seller}],
     queryFn: getUserEmail
   });
+
+  if (isLoading) return (
+    <>
+      <li className="listing-item">
+        <Card className="listing-item__content">
+          <div className="listing-item__image">
+            <img src={props.image} alt={props.title} />
+          </div>
+          <div className="listing-item__info__left">
+            <h2>{props.title}</h2>
+            <p>{props.price}&euro;{" "}</p>
+          </div>
+          <div className="listing-item__info__right">
+            <h2>{}</h2>
+            <h2>{}</h2>
+            <p>{props.phone}</p>
+          </div>
+          <div className="listing-item__info__description__header">
+            <p>Description:</p>
+          </div>
+          <div className="listing-item__info__description">
+            <p>{props.description}</p>
+          </div>
+          <div className="listing-item_actions">
+            {auth.isLoggedIn && (
+              <div className="button__edit">
+              <Button inverse onClick={showEditHandler}>Edit</Button>
+              </div>
+            )}
+            {auth.isLoggedIn && (
+              <div className="button__delete">
+              <Button danger onClick={showConfirmationHandler}>Delete</Button>
+              </div>
+            )}
+          </div>
+        </Card>
+      </li>
+    </>
+  );
+
   if (error) return "An error has occurred: " + error.message;
   return (
     <>

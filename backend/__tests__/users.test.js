@@ -9,7 +9,7 @@ describe('SIGNUP users endpoint', () => {
 
   beforeAll(async () => {
    const deleteQuery = 'DELETE FROM users WHERE email=?;'
-    connection.query(deleteQuery, ['test10@test.com'], (err, result) => {
+    connection.query(deleteQuery, ['tony@stark.com'], (err, result) => {
       if(err) {
         console.log(err);
       }
@@ -18,9 +18,9 @@ describe('SIGNUP users endpoint', () => {
 
   test('should signup user with valid credentials', async () => {
     const data = {
-      name: 'test10',
-      email: 'test10@test.com',
-      password: 'test10'
+      name: 'Tony Stark Wayne',
+      email: 'tony@stark.com',
+      password: 'password123'
     }
 
     const response = await supertest(app)
@@ -31,15 +31,16 @@ describe('SIGNUP users endpoint', () => {
 
       expect(response.status).toEqual(201);
       expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body.id).toBeTruthy();
       expect(response.body.email).toBeTruthy();
       expect(response.body.token).toBeTruthy();
   });
 
   test('should login user with valid credentials', async () => {
     const data = {
-      name: 'test10',
-      email: 'test10@test.com',
-      password: 'test10'
+      name: 'Tony Stark Wayne',
+      email: 'tony@stark.com',
+      password: 'password123'
     }
 
     const response = await supertest(app)
@@ -47,8 +48,10 @@ describe('SIGNUP users endpoint', () => {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .send(data)
+
       expect(response.status).toEqual(201);
       expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body.id).toBeTruthy();
       expect(response.body.email).toBeTruthy();
       expect(response.body.token).toBeTruthy();
   });
