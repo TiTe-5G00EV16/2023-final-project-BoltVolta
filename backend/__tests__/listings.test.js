@@ -191,7 +191,8 @@ describe('GET listings by seller enpoint', () => {
   test('should return 200 and json if the item was found', async() => {
     const response = await supertest(app)
       .get('/api/listings/user-listings/2')
-      .set('Accept', 'application/json');
+      .set('Accept', 'application/json')
+      .set('Authorization', 'Bearer ' + loggedInUser.token);
 
     expect(response.status).toEqual(200);
     expect(response.headers['content-type']).toMatch(/json/);
