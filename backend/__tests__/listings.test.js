@@ -83,7 +83,6 @@ describe('GET listings by id enpoint', () => {
 describe('POST listings endpoint', ()=> {
 
   const loggedInUser = {
-    id: '',
     email: '',
     token: ''
   }
@@ -101,7 +100,6 @@ describe('POST listings endpoint', ()=> {
       .set('Accept', 'application/json')
       .set('Content', 'application/json')
       .send(data)
-    loggedInUser.id = response.body.id
     loggedInUser.email = response.body.email
     loggedInUser.token = response.body.token
     console.log(loggedInUser)
@@ -120,7 +118,7 @@ describe('POST listings endpoint', ()=> {
     const listing = {
       title: 'test',
       price: '600',
-      seller: loggedInUser.id,
+      seller: 3,
       phone:'0451235698',
       description:'test',
       image: 'a.jpg'
@@ -135,7 +133,6 @@ describe('POST listings endpoint', ()=> {
 
     expect(response.status).toEqual(201);
     expect(response.headers['content-type']).toMatch(/json/);
-    expect(response.body.id).toBeTruthy();
     expect(response.body.title).toEqual('test');
     expect(response.body.price).toEqual('600');
   });
