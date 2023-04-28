@@ -19,8 +19,8 @@ docker commands:
 
 ```
 docker-compose up -d
-
 ```
+
 backend commands:
 
 ```
@@ -34,6 +34,7 @@ npm run dev
 ```
 
 frontend commands:
+
 ```
 cd frontend
 ```
