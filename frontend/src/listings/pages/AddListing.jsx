@@ -22,7 +22,7 @@ const AddListing = () => {
 
   const auth = useContext(AuthContext);
   const history = useHistory();
-
+  console.log(auth.userId);
   const createListingMutation = useMutation({
     mutationFn: createListing
   })

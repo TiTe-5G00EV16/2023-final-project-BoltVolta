@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import Cities from './Cities';
+import Listings from './Listings';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,10 +17,10 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-describe('The Cities Page', () => {
+describe('The Listings Page', () => {
   test('Should show a loading spinner while waiting', () =>{
     render(
-      <Cities />, { wrapper }
+      <Listings />, { wrapper }
     );
 
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();

@@ -57,12 +57,12 @@ const wrapper = ({ children }) => (
 describe('The CitiesList', () => {
   test('should show no listings when no listing is available', () => {
     render(<ListingsList items={[]} />)
-    expect(screen.getByText('No cities found.')).toBeInTheDocument();
+    expect(screen.getByText('No Listings found.')).toBeInTheDocument();
   });
 
   test('should show a list of cities', () => {
     render(<ListingsList items={TEST_LISTINGS_DATA} />,{ wrapper });
-    expect(screen.queryByText('No listings found.')).toBeNull();
+    expect(screen.queryByText('No Listings found.')).toBeNull();
     expect(screen.getByText('Bike')).toBeInTheDocument();
     expect(screen.getByText('Nike Shoes')).toBeInTheDocument();
     expect(screen.getByText('Microphone')).toBeInTheDocument();
