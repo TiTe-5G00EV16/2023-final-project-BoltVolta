@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "mydb.tamk.fi",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "TAMK DB",
+            "database": "dbvgdako3",
+            "username": "vgdako",
+            "password": "COq84rt8"
+        }
+    ]
+}

@@ -1,0 +1,74 @@
+.listing-item {
+  margin: 1rem 0;
+}
+.listing-item__content {
+  padding: 0;
+}
+.listing-item__info__left {
+  padding: 1rem;
+  text-align: left;
+  float: left;
+  width: 30%;
+}
+.listing-item__info__right {
+  padding: 1rem;
+  text-align: right;
+  float: right;
+  width: 30%;
+}
+.listing-item__info__description__header {
+  padding: 1rem;
+  text-align: left;
+  position: absolute;
+  bottom: 45%;
+  left: 33.3%;
+  width:10%;
+}
+.listing-item__info__description {
+  border: 1px dashed #000000;
+  padding: 5px;
+  text-align: left;
+  position: absolute;
+  bottom: 18%;
+  left: 34%;
+  width:53%;
+  height: 35%;
+}
+.listing-item__image {
+  width: 30%;
+  height: fit-content;
+  margin-right: 1.5rem;
+  float: left;
+}
+.listing-item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.listing-item__info h2,
+.listing-item__info h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+
+.listing-item__actions {
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+.listing-item__modal-content {
+  padding: 0;
+}
+.listing-item__modal-actions {
+  text-align: right;
+}
+.listing-item__actions button,
+.listing-item__actions a {
+  margin: 0.5rem;
+}
+@media (min-width: 768px) {
+  .listing-item__image {
+    height: 20rem;
+  }
+}

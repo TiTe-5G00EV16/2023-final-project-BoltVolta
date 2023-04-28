@@ -1,0 +1,73 @@
+GET http://localhost:5000/api/listings
+
+###
+GET http://localhost:5000/api/users/2
+
+###
+GET http://localhost:5000/api/users/
+
+###
+GET http://localhost:5000/api/listings/user-listings/2
+Authorization: BEARER {{authToken}}
+
+###
+GET http://localhost:5000/api/listings/
+
+###
+POST http://localhost:5000/api/listings/
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+  "title": "Microphone",
+  "price": "600",
+  "seller": 3,
+  "phone":"0451235698",
+  "description":"test",
+  "image": "a.jpg"
+}
+
+###
+PATCH http://localhost:5000/api/listings/5
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+  "title": "Microphone",
+  "price": "10",
+  "seller":"admin",
+  "categoryid":4,
+  "email": "admin@root.com",
+  "phone":"0451235698",
+  "description":"patch test",
+  "image": "update test.jpg"
+}
+
+###
+DELETE http://localhost:5000/api/listings/4
+Authorization: BEARER {{authToken}}
+
+###
+POST http://localhost:5000/api/users/signup
+Content-Type: application/json
+
+{
+    "name": "admin",
+    "email": "admin@root.com",
+    "password": "admin123"
+
+}
+
+###
+# @name login
+POST http://localhost:5000/api/users/login
+Content-Type: application/json
+
+{
+    "email": "admin@root.com",
+    "password": "admin123"
+
+}
+
+###
+@authToken = {{login.response.body.token}}
