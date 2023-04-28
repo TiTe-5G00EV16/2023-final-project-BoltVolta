@@ -15,7 +15,8 @@ app.use(function(req, res, next) {
 
 app.use(cors({
   origin: [
-    'http://localhost:5173/'
+    'http://localhost:5173/',
+    'https://boltvolta-vgdako-web-prog-2023-finals.onrender.com'
   ]
 }));
 app.use(express.json());
